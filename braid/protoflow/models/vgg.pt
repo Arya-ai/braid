@@ -1,0 +1,223 @@
+layer {
+    name: "conv1"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 64
+        kernel_size: 5
+        stride: 2
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv2"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 64
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "pool1"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer {
+    name: "conv3"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 128
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv4"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 128
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "pool2"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer {
+    name: "conv5"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 256
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv6"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 256
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv7"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 256
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "pool3"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer {
+    name: "conv8"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv9"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv10"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "pool4"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer {
+    name: "conv11"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv12"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "conv13"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 512
+        kernel_size: 3
+        pad: "same"
+        activation: "relu"
+        init: "deepnet"
+        b_val: 0.0
+    }
+}
+layer {
+    name: "pool5"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer { type: "Flatten" }
+layer {
+    name: "fc6"
+    type: "Dense"
+    dense_param {
+        num_units: 4096
+        activation: "relu"
+        W_stddev: 1e-2
+        b_val: 0.0
+    }
+}
+layer {
+    name: "drop1"
+    type: "Dropout"
+    dropout_param { p: 0.5 }
+}
+layer {
+    name: "fc7"
+    type: "Dense"
+    dense_param {
+        num_units: 4096
+        activation: "relu"
+        W_stddev: 1e-2
+        b_val: 0.0
+    }
+}
+layer {
+    name: "drop2"
+    type: "Dropout"
+    dropout_param { p: 0.5 }
+}
+layer {
+    name: "out"
+    type: "Dense"
+    dense_param {
+        num_units: 50
+        activation: "softmax"
+        W_stddev: 1e-3
+        b_val: 0.0
+    }
+}

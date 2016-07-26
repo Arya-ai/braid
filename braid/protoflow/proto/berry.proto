@@ -1,0 +1,135 @@
+syntax = "proto2";
+
+package berry;
+
+
+message Datum {
+  optional uint32 channels = 1;
+  optional uint32 height = 2;
+  optional uint32 width = 3;
+  // the actual image data, in bytes
+  optional bytes data = 4;
+  optional int32 label = 5;
+  // Optionally, the datum could also hold float data.
+  repeated float float_data = 6;
+  // If true data contains an encoded image that need to be decoded
+  optional bool encoded = 7 [default = false];
+}
+
+message Size {
+  repeated uint32 dim = 1;
+}
+
+// message Data {
+//   required string name = 1;
+//   required string type = 2;  // 'input' or 'target'
+//   repeated uint32 dim = 3;
+// }
+
+message NetParameter {
+  // The input blobs to the network.
+  // repeated Data data = 1;
+  // batch size
+  // optional uint32 batch_size = 2;
+
+  // Parameters for data pre-processing.
+  // optional TransformationParameter transform_param = 101;
+
+  // The layers that make up the net.  Each of their configurations, including
+  // connectivity and behavior, is specified as a LayerParameter.
+  repeated LayerParameter layer = 100;  // ID 100 so layers are printed last.
+
+  // configure loss for the network
+  // repeated Loss loss = 3;
+  // configure the optimizer to use for training
+  // optional Optimizer optimizer = 4;
+}
+
+message LayerParameter {
+  required string type = 1; // the layer type
+  // 'input' refers to the name of the layers which are input to this layer
+  repeated string input = 2; // the name of each input blob
+  // 'name' refers to the name of the output produced by this layer
+  optional string name = 3; // the name of each name blob
+
+  // Layer type-specific parameters.
+  //
+  // Note: certain layers may have more than one computational engine
+  // for their implementation. These layers include an Engine type and
+  // engine parameter for selecting the implementation.
+  optional Convolution2DParameter convolution2d_param = 101;
+  optional DenseParameter dense_param = 102;
+  optional DropoutParameter dropout_param = 104;
+  optional MaxPooling2DParameter maxpooling2d_param = 103;
+}
+
+message Convolution2DParameter {
+  required uint32 num_filters = 1;
+  required uint32 kernel_size = 2;
+  optional uint32 stride = 3;
+  optional string pad = 4;
+  // activation
+  optional string activation = 5;
+  // weight initialization related
+  optional string init = 6;
+  optional float W_stddev = 7;
+  optional float b_val = 8;
+}
+
+message MaxPooling2DParameter {
+  required uint32 kernel_size = 1;
+  optional uint32 stride = 2;
+  optional string pad = 3;
+}
+
+message DenseParameter {
+  required uint32 num_units = 1;
+  optional string activation = 2;
+  // weight initialization related
+  optional string init = 3;
+  optional float W_stddev = 4;
+  optional float b_val = 5;
+}
+
+message DropoutParameter {
+  optional float p = 1 [default = 0.5];
+}
+
+message Optimizer {
+  // 'SGD' - lr, momentum, decay, nesterov
+  // 'RMSprop' - lr, rho, epsilon
+  // 'Adagrad' - lr, epsilon
+  // 'Adadelta' - lr, rho, epsilon
+  // 'Adam' - lr, beta_1, beta_2, epsilon
+  // 'Adamax' - lr, beta_1, beta_2, epsilon
+  optional string type = 1 [default = "SGD"];
+  optional float lr = 2 [default = 0.1];
+
+  optional float momentum = 3 [default = 0.0];
+  optional float decay = 4 [default = 0.0];
+  optional bool nesterov = 5 [default = false];
+
+  optional float rho = 6 [default = 0.9];
+  optional float epsilon = 7 [default = 1e-6];
+
+  optional float beta_1 = 8 [default = 0.9];
+  optional float beta_2 = 9 [default = 0.999];
+}
+
+message Loss {
+  optional string name = 1;
+  optional string type = 2;
+}
+
+message ZoomParam {
+  optional float low_scale = 1 [default = 1.0];
+  optional float high_scale = 2 [default = 1.0];
+}
+
+message TransformationParameter {
+  optional Size random_crop = 1;
+  optional Size reshape = 2;
+  optional bool hflip = 3 [default = false];
+  optional bool vflip = 4 [default = false];
+  optional ZoomParam zoom = 5;
+}

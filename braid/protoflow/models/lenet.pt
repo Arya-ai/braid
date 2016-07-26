@@ -1,0 +1,50 @@
+layer {
+    name: "conv1"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 20
+        kernel_size: 5
+        pad: "valid"
+        activation: "sigmoid"
+        W_stddev: 1e-1
+    }
+}
+layer {
+    name: "pool1"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer {
+    name: "conv2"
+    type: "Convolution2D"
+    convolution2d_param {
+        num_filters: 50
+        kernel_size: 5
+        activation: "sigmoid"
+        W_stddev: 1e-1
+    }
+}
+layer {
+    name: "pool2"
+    type: "MaxPooling2D"
+    maxpooling2d_param { kernel_size: 2 stride: 2 }
+}
+layer { type: "Flatten" }
+layer {
+    name: "fc1"
+    type: "Dense"
+    dense_param {
+        num_units: 500
+        activation: "relu"
+        W_stddev: 5e-3
+    }
+}
+layer {
+    name: "out"
+    type: "Dense"
+    dense_param {
+        num_units: 10
+        activation: "softmax"
+        W_stddev: 5e-3
+    }
+}

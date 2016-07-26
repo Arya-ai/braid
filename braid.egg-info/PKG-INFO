@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: braid
+Version: 0.1.dev0
+Summary: Deep Learning library in Tensorflow
+Home-page: UNKNOWN
+Author: Chintak Sheth
+Author-email: chintak@arya.ai
+License: MIT
+Download-URL: http://github.com/arya-ai/berry
+Description: Deep Learning library in Tensorflow.
+        
+Platform: UNKNOWN
