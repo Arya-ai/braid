@@ -58,8 +58,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'braid'
-copyright = u'2016, Shashwat Antony'
-author = u'Shashwat Antony'
+copyright = u'2016, Braid Contributers'
+author = u'Braid Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
