@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>berry.optimizers &mdash; braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="braid 0.1 documentation" href="../../index.html" />
+    <link rel="prev" title="berry.objectives" href="objectives.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-braid.berry.optimizers">
+<span id="berry-optimizers"></span><h1><code class="xref py py-mod docutils literal"><span class="pre">berry.optimizers</span></code><a class="headerlink" href="#module-braid.berry.optimizers" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">berry.optimizers</span></code> module contains classes for training a neural network.</p>
+<p>The training process involves looping over the entire training data multiple
+times (epochs) seeing a handful samples at a time (training step/iteration).
+Each training step in turn consists mainly of two steps:</p>
+<ul class="simple">
+<li>computing gradient of loss function w.r.t. each parameter</li>
+<li>updating each parameter using this gradient weighted by the learning
+rate (this depends on the type of optimizer used)</li>
+</ul>
+<p>List of optimizers available:</p>
+<p>It is possible to catch vanishing/exploding gradients problem by monitoring
+the gradients every few iterations. The class below prints the mean and
+standard deviation of the parameters and it&#8217;s corresponding gradients in
+order to facilitate better debugging in case the neural network is not
+learning.</p>
+<div class="section" id="helper-function">
+<h2>Helper function<a class="headerlink" href="#helper-function" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="braid.berry.optimizers.get_optimizer">
+<code class="descclassname">braid.berry.optimizers.</code><code class="descname">get_optimizer</code><span class="sig-paren">(</span><em>key</em>, <em>loss_op</em>, <em>learning_rate</em>, <em>global_step=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.get_optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to retrieve the appropriate optimizer class.</p>
+<dl class="docutils">
+<dt>key</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Name of the optimizer class - &#8220;sgd&#8221;, etc.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Training operation.</dd>
+<dt>list of <code class="docutils literal"><span class="pre">tf.Variable</span></code></dt>
+<dd>List of gradients w.r.t. each trainable parameter.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">berry.optimizers</span> <span class="k">import</span> <span class="n">get_optimizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># assume: loss_op is the loss operation returned by</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># berry.objectives.get_objective()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_op</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">get_optimizer</span><span class="p">(</span><span class="s2">&quot;sgd&quot;</span><span class="p">,</span> <span class="n">loss_op</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>You are encouraged to use the helper function <a class="reference internal" href="#braid.berry.optimizers.get_optimizer" title="braid.berry.optimizers.get_optimizer"><code class="xref py py-func docutils literal"><span class="pre">get_optimizer()</span></code></a>.
+Alternatively, you can use the optimizer functions directly,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">berry.optimizers</span> <span class="k">import</span> <span class="n">sgd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optim</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optimizers">
+<h2>Optimizers<a class="headerlink" href="#optimizers" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="braid.berry.optimizers.sgd">
+<code class="descclassname">braid.berry.optimizers.</code><code class="descname">sgd</code><span class="sig-paren">(</span><em>learning_rate</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.sgd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stochastic Gradient Descent</p>
+<dl class="docutils">
+<dt>learning_rate</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float</span><dd>Rate of update of paramter values based on it&#8217;s gradients.</dd>
+</dl>
+<dl class="docutils">
+<dt>Derived class of <code class="docutils literal"><span class="pre">f.train.Optimizer</span></code></dt>
+<dd>Class which performs the gradient computation and performs backward
+pass.</dd>
+</dl>
+<p>Parameter update step for SGD is</p>
+<p>where  is the gradient of
+the loss for  -th mini-batch w.r.t. paramter .</p>
+</dd></dl>
+
+</div>
+<div class="section" id="gradient-monitoring">
+<h2>Gradient Monitoring<a class="headerlink" href="#gradient-monitoring" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="braid.berry.optimizers.GradientSanity">
+<em class="property">class </em><code class="descclassname">braid.berry.optimizers.</code><code class="descname">GradientSanity</code><span class="sig-paren">(</span><em>session</em>, <em>param_ops</em>, <em>grad_ops</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.GradientSanity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Montior the value of parameters and it&#8217;s corresponding gradients.</p>
+<p>Prints the mean and standard deviation of the parameter values an it&#8217;s
+gradients in a nice formatted table.</p>
+<dl class="docutils">
+<dt>session</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Session</span></code></span><dd>The tensorflow session in which the operations are defined.</dd>
+<dt>param_ops</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of <code class="docutils literal"><span class="pre">tf.Variable</span></code></span><dd>List of trainable paramters.</dd>
+<dt>grad_ops</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of <code class="docutils literal"><span class="pre">tf.Variable</span></code></span><dd>List of gradient of loss function w.r.t. the trainable paramters.</dd>
+</dl>
+<dl class="docutils">
+<dt>ops</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of <code class="docutils literal"><span class="pre">tf.Variable</span></code></span><dd>List of parameters and gradients.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">get_optimizer</span><span class="p">(</span><span class="s2">&quot;sgd&quot;</span><span class="p">,</span> <span class="n">loss_op</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_ops</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sanity</span> <span class="o">=</span> <span class="n">GradientSanity</span><span class="p">(</span><span class="n">sess</span><span class="p">,</span> <span class="n">param_ops</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># assume: feed_dict = {&#39;x:0&#39;: ..., &#39;y:0&#39;: ...}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sanity</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="braid.berry.optimizers.GradientSanity.print_msg">
+<code class="descname">print_msg</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.GradientSanity.print_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format for printing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.optimizers.GradientSanity.print_summary">
+<code class="descname">print_summary</code><span class="sig-paren">(</span><em>vals</em>, <em>grads</em>, <em>names</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.GradientSanity.print_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a formatted table summary of parameter and gradient values.</p>
+<dl class="docutils">
+<dt>vals</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of <code class="docutils literal"><span class="pre">np.ndarray</span></code></span><dd>List of parameter values.</dd>
+<dt>grads</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of <code class="docutils literal"><span class="pre">np.ndarray</span></code></span><dd>List of gradient values.</dd>
+<dt>names</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list of string</span><dd>List of names of the parameters.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.optimizers.GradientSanity.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>feed_dict={}</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.optimizers.GradientSanity.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the forward pass and print a summary of the parameter and gradient values.</p>
+<dl class="docutils">
+<dt>feed_dict</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd>Dict containing the input and target data for forward pass.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">berry.optimizers</span></code></a><ul>
+<li><a class="reference internal" href="#helper-function">Helper function</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#optimizers">Optimizers</a></li>
+<li><a class="reference internal" href="#gradient-monitoring">Gradient Monitoring</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="objectives.html" title="previous chapter"><code class="docutils literal"><span class="pre">berry.objectives</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/modules/berry/optimizers.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Shashwat Antony.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../_sources/modules/berry/optimizers.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

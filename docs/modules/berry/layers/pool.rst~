@@ -1,0 +1,16 @@
+Pooling layers
+--------------
+
+.. automodule:: berry.layers.pooling
+
+.. currentmodule:: berry.layers
+
+.. autosummary::
+    :nosignatures:
+
+    MaxPooling2D
+
+
+.. autoclass:: MaxPooling2D
+   :members:
+   :undoc-members:

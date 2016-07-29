@@ -1,0 +1,10 @@
+:class:`berry.BerryModel`
+=========================
+
+.. automodule:: berry.base
+
+.. currentmodule:: berry
+
+.. autoclass:: berry.BerryModel
+    :members:
+    :undoc-members:

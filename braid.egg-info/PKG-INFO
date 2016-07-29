@@ -1,12 +1,13 @@
-Metadata-Version: 1.1
+Metadata-Version: 0
 Name: braid
 Version: 0.1.dev0
-Summary: Deep Learning library in Tensorflow
-Home-page: UNKNOWN
-Author: Chintak Sheth
-Author-email: chintak@arya.ai
+Summary: Braid is an open source library built over Tensorflow for faster prototyping.
+Home-page: www.braidnn.org
+Author: Deekshith Marla
+Author-email: deekshith@arya.ai
+Maintainer: Shashwat Antony
+Maintainer-email: shashwat@arya.ai
 License: MIT
-Download-URL: http://github.com/arya-ai/berry
-Description: Deep Learning library in Tensorflow.
-        
+Download-URL: http://github.com/arya-ai/braid
+Description: Braid is a flexible and modular neural network library. It is written in python and uses Tensorflow backend. It was designed for fast development and at the same time able support arbitrary network designs.
 Platform: UNKNOWN

@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Layer base class &mdash; braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="braid 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="berry.layers" href="../layers.html" />
+    <link rel="next" title="Convolutional layers" href="conv.html" />
+    <link rel="prev" title="berry.layers" href="../layers.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="layer-base-class">
+<h1>Layer base class<a class="headerlink" href="#layer-base-class" title="Permalink to this headline">¶</a></h1>
+<p>Base layer class and helper functions to print network summary and aggregate
+auxiliary inputs from a list of layers.</p>
+<dl class="class">
+<dt id="braid.berry.layers.Layer">
+<em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Layer</code><span class="sig-paren">(</span><em>incoming</em>, <em>W=None</em>, <em>b=None</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for implementing a layer in <code class="xref py py-mod docutils literal"><span class="pre">berry</span></code>.</p>
+<p><a class="reference internal" href="#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> is a simple helper class for implementing new layers. It
+defines a set of functions which enable weight initialization, printing
+layer summary, etc. Due to <code class="docutils literal"><span class="pre">berry</span></code>&#8216;s transparent coupling with
+tensorflow, incoming layers can be <a class="reference internal" href="#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> objects, or
+<code class="docutils literal"><span class="pre">tf.Tensor</span></code> objects.</p>
+<dl class="docutils">
+<dt>incoming</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Parent layer, whose output is given as input to the current layer.</dd>
+<dt>W</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Variable</span></code>, optional (default = None)</span><dd>Weight tensor in case if the layer has any trainable parameters.</dd>
+<dt>b</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Variable</span></code>, optional (default = None)</span><dd>Bias vector in case of trainable parameters.</dd>
+<dt>name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Name of the layer. Should be specified for better readability.</dd>
+</dl>
+<dl class="docutils">
+<dt>input_layer</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Input layer to this layer.</dd>
+<dt>input_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the incoming layer.</dd>
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>The Tensor obtained after performing the transformation applied by
+this layer.</dd>
+<dt>output_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the output tensor.</dd>
+<dt>type</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Return the name of the class.</dd>
+</dl>
+<dl class="method">
+<dt id="braid.berry.layers.Layer.bias_variable">
+<code class="descname">bias_variable</code><span class="sig-paren">(</span><em>shape</em>, <em>initializer=None</em>, <em>val=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.bias_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a bias vector with appropriate initialization.</p>
+<dl class="docutils">
+<dt>shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Shape of the weight tensor to create.</dd>
+<dt>initializer</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Not used</dd>
+<dt>val</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default = 0.0)</span><dd>Constant value for initializing the biases.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Variable</span></code></dt>
+<dd>Symbolic bias vector initialized with a value of <code class="docutils literal"><span class="pre">val</span></code>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_W_shape">
+<code class="descname">get_W_shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_W_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the weight tensor required for the layer.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Should be <strong>overwritten</strong> for layers which have trainable weight
+tensors.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_b_shape">
+<code class="descname">get_b_shape</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_b_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of bias units</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Should be <strong>overwritten</strong> for layers which have trainable weight
+tensors.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_fan_in">
+<code class="descname">get_fan_in</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_fan_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of input units to the layer.</p>
+<dl class="docutils">
+<dt>int</dt>
+<dd>The fan in of the layer.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Should be <strong>overwritten</strong> if the layer has trainable weights.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_fan_out">
+<code class="descname">get_fan_out</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_fan_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of output units to the layer.</p>
+<dl class="docutils">
+<dt>int</dt>
+<dd>The fan out of the layer.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Should be <strong>overwritten</strong> if the layer has trainable weights.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_output_for">
+<code class="descname">get_output_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_output_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the output transformation on the input tensor.</p>
+<p>The main logic of the layer lies here. The required sequence of
+tensorflow operations for transforming the input to output are
+defined here. This should be <strong>overwritten</strong> in the inherited layer.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Output tensor of this layer.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For easy access to all the layer pre-activations/outputs, the Tensor objects are added to a <a class="reference external" href="https://www.tensorflow.org/versions/r0.9/api_docs/python/framework.html#graph-collections">tensorflow collection</a> with <code class="docutils literal"><span class="pre">BerryKeys.LAYER_OUTPUTS</span></code> key. Example:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add to collection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf</span><span class="o">.</span><span class="n">add_to_collection</span><span class="p">(</span><span class="n">BerryKeys</span><span class="o">.</span><span class="n">LAYER_OUTPUTS</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Retrieve all from the collection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">vars</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">BerryKeys</span><span class="o">.</span><span class="n">LAYER_OUTPUTS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.get_output_shape_for">
+<code class="descname">get_output_shape_for</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.get_output_shape_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the output tensor produced by this layer.</p>
+<p>This method should be <strong>overwritten</strong> in the inherited layer.</p>
+<dl class="docutils">
+<dt>input_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple or list</span><dd>Shape of the input layer.</dd>
+</dl>
+<dl class="docutils">
+<dt>tuple</dt>
+<dd>Shape of the output tensor.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, this will return the <code class="docutils literal"><span class="pre">input_shape</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.print_summary">
+<code class="descname">print_summary</code><span class="sig-paren">(</span><em>print_fmt</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.print_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print out a summary of the layer - layer type, name, weight shape,
+input shape and output shape.</p>
+<dl class="docutils">
+<dt>print_fmt</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Formatted string with 5 fields.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;|</span><span class="si">{:^20}</span><span class="s2">|</span><span class="si">{:^15}</span><span class="s2">|</span><span class="si">{:^20}</span><span class="s2">|</span><span class="si">{:^20}</span><span class="s2">|</span><span class="si">{:^20}</span><span class="s2">|&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">l</span><span class="o">.</span><span class="n">print_summary</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+<span class="go">|   Convolution2D    |     conv1     |   [5, 5, 3, 64]    |(None, \</span>
+<span class="go">224, 224, 3) |(None, 113, 113, 64)|</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.validate_input_layer">
+<code class="descname">validate_input_layer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.validate_input_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function ensures valid layer-layer connections are made.</p>
+<p>Typically, this function would perform assertions on the shape of the
+input layer. This function must be <strong>overwritten</strong> in the inherited
+class.</p>
+<dl class="docutils">
+<dt>bool</dt>
+<dd><code class="docutils literal"><span class="pre">True</span></code> if input layer is valid, <code class="docutils literal"><span class="pre">False</span></code> otherwise.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Layer.weight_variable">
+<code class="descname">weight_variable</code><span class="sig-paren">(</span><em>shape</em>, <em>initializer=None</em>, <em>stddev=0.01</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Layer.weight_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a weight tensor with appropriate initialization.</p>
+<dl class="docutils">
+<dt>shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Shape of the weight tensor to create.</dd>
+<dt>initializer</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Initialize using a pre-defined method in
+<code class="xref py py-mod docutils literal"><span class="pre">berry.initializations</span></code>.</dd>
+<dt>stddev</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default = 0.01)</span><dd>Standard deviation of Gaussian distribution for initialization.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Variable</span></code></dt>
+<dd>Symbolic weight tensor initialized according to <code class="docutils literal"><span class="pre">initializer</span></code>
+method specified or from a Gaussian distribution with a mean
+of <code class="docutils literal"><span class="pre">0</span></code> and a standard deviation of <code class="docutils literal"><span class="pre">stddev</span></code>.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../layers.html"><code class="docutils literal"><span class="pre">berry.layers</span></code></a><ul>
+      <li>Previous: <a href="../layers.html" title="previous chapter"><code class="docutils literal"><span class="pre">berry.layers</span></code></a></li>
+      <li>Next: <a href="conv.html" title="next chapter">Convolutional layers</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/modules/berry/layers/base.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Shashwat Antony.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../../_sources/modules/berry/layers/base.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
