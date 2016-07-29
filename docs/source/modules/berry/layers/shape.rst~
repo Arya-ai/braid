@@ -1,0 +1,16 @@
+Shape layers
+------------
+
+.. automodule:: berry.layers.shape
+
+.. currentmodule:: berry.layers
+
+.. autosummary::
+    :nosignatures:
+
+    Flatten
+
+
+.. autoclass:: Flatten
+   :members:
+   :undoc-members:

@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>berry.objectives &mdash; Braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Braid 0.1 documentation" href="../../index.html" />
+    <link rel="next" title="berry.optimizers" href="optimizers.html" />
+    <link rel="prev" title="berry.activations" href="activations.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-braid.berry.objectives">
+<span id="berry-objectives"></span><h1><code class="xref py py-mod docutils literal"><span class="pre">berry.objectives</span></code><a class="headerlink" href="#module-braid.berry.objectives" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">berry.objectives</span></code> module contains a list of loss functions and other evaluation methods for training or testing neural networks.</p>
+<p>A small list of loss functions currently defined in <code class="xref py py-mod docutils literal"><span class="pre">berry</span></code> are given below.</p>
+<p>The following evaluation methods are provided to montior the train or test performance of the neural network.</p>
+<div class="section" id="helper-function">
+<h2>Helper function<a class="headerlink" href="#helper-function" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="braid.berry.objectives.get_objective">
+<code class="descclassname">braid.berry.objectives.</code><code class="descname">get_objective</code><span class="sig-paren">(</span><em>key</em>, <em>output</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.objectives.get_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to retrieve the appropriate objective function.</p>
+<dl class="docutils">
+<dt>key</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Name of the objective function - &#8220;categorical_crossentropy&#8221;,
+&#8220;accuracy&#8221;, etc.</dd>
+</dl>
+<dl class="docutils">
+<dt>function</dt>
+<dd>The appropriate function given the <code class="docutils literal"><span class="pre">key</span></code>.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">berry.objectives</span> <span class="k">import</span> <span class="n">get_objective</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># assume: `target` - output Tensor to predict, `output` - predicted</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Tensor of the neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy_op</span> <span class="o">=</span> <span class="n">get_objective</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>You are encouraged to use the helper function <a class="reference internal" href="#braid.berry.objectives.get_objective" title="braid.berry.objectives.get_objective"><code class="xref py py-func docutils literal"><span class="pre">get_objective()</span></code></a>. Alternatively, you can use the objective functions directly,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">berry.objectives</span> <span class="k">import</span> <span class="n">categorical_crossentropy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># assume: `target` - output Tensor to predict, `output` - predicted Tensor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># of the neural network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_op</span> <span class="o">=</span> <span class="n">categorical_crossentropy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loss-functions">
+<h2>Loss Functions<a class="headerlink" href="#loss-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="braid.berry.objectives.categorical_crossentropy">
+<code class="descclassname">braid.berry.objectives.</code><code class="descname">categorical_crossentropy</code><span class="sig-paren">(</span><em>output</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.objectives.categorical_crossentropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Categorical crossentropy between an output tensor
+and a target tensor, where the target is a tensor of the same
+shape as the output.</p>
+<dl class="docutils">
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the predicted class probabilities of the neural network.</dd>
+<dt>target</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the true classes for the corresponding inputs.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Symbolic tensorflow Tensor which performs the loss calculation.</dd>
+</dl>
+<p>This function expects <code class="docutils literal"><span class="pre">output</span></code> to contain class probabilities instead of
+class prediction scores. Typically, <code class="xref py py-func docutils literal"><span class="pre">activations.softmax()</span></code> activation
+should be used for the layer producing <code class="docutils literal"><span class="pre">output</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="braid.berry.objectives.triplet_loss">
+<code class="descclassname">braid.berry.objectives.</code><code class="descname">triplet_loss</code><span class="sig-paren">(</span><em>Xa</em>, <em>Xp</em>, <em>Xn</em>, <em>margin=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.objectives.triplet_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triplet loss function.</p>
+<p>This function is useful for generating embeddings for images/inputs such
+that similar inputs lie close in the embedding and different objects lie
+further away. It takes 3 inputs - anchor (<code class="docutils literal"><span class="pre">Xa</span></code>), positive sample
+(<code class="docutils literal"><span class="pre">Xp</span></code>) and negative sample (<code class="docutils literal"><span class="pre">Xn</span></code>). <code class="docutils literal"><span class="pre">Xa</span></code> and <code class="docutils literal"><span class="pre">Xp</span></code> are known to be
+similar inputs whereas <code class="docutils literal"><span class="pre">Xa</span></code> and <code class="docutils literal"><span class="pre">Xn</span></code> are different. For more details
+refer to <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<dl class="docutils">
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the predicted class probabilities of the neural network.</dd>
+<dt>target</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the true classes for the corresponding inputs.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Symbolic tensorflow Tensor which performs the loss calculation.</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Florian Schroff, Dmitry Kalenichenko, James Philbin; &#8220;FaceNet: A
+Unified Embedding for Face Recognition and Clustering&#8221;, The IEEE
+Conference on Computer Vision and Pattern Recognition (CVPR),
+2015, pp. 815-823.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="evaluation-methods">
+<h2>Evaluation Methods<a class="headerlink" href="#evaluation-methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="braid.berry.objectives.accuracy">
+<code class="descclassname">braid.berry.objectives.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>output</em>, <em>target</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.objectives.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-class zero-one accuracy</p>
+<p>The fraction of samples in the given mini-batch with the correct
+predicted class.</p>
+<dl class="docutils">
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the predicted class probabilities of the neural network.</dd>
+<dt>target</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Tensor containing the true classes for the corresponding inputs.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Symbolic tensorflow Tensor which performs the accuracy calculation.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">berry.objectives</span></code></a><ul>
+<li><a class="reference internal" href="#helper-function">Helper function</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#loss-functions">Loss Functions</a></li>
+<li><a class="reference internal" href="#evaluation-methods">Evaluation Methods</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="activations.html" title="previous chapter"><code class="docutils literal"><span class="pre">berry.activations</span></code></a></li>
+      <li>Next: <a href="optimizers.html" title="next chapter"><code class="docutils literal"><span class="pre">berry.optimizers</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/modules/berry/objectives.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Braid Contributers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../_sources/modules/berry/objectives.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

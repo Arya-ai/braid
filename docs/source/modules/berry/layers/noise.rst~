@@ -1,0 +1,16 @@
+Noise layers
+------------
+
+.. automodule:: berry.layers.noise
+
+.. currentmodule:: berry.layers
+
+.. autosummary::
+    :nosignatures:
+
+    Dropout
+
+
+.. autoclass:: Dropout
+   :members:
+   :undoc-members:

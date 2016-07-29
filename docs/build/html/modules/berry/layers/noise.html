@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Noise layers &mdash; Braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Braid 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="berry.layers" href="../layers.html" />
+    <link rel="next" title="berry.initializations" href="../initializations.html" />
+    <link rel="prev" title="Shape layers" href="shape.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-braid.berry.layers.noise">
+<span id="noise-layers"></span><h1>Noise layers<a class="headerlink" href="#module-braid.berry.layers.noise" title="Permalink to this headline">¶</a></h1>
+<p>Noise layers</p>
+<dl class="class">
+<dt id="braid.berry.layers.Dropout">
+<em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Dropout</code><span class="sig-paren">(</span><em>incoming</em>, <em>p</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dropout layer</p>
+<p>Sets values to zero with probability p. See notes for disabling dropout
+during testing.</p>
+<dl class="docutils">
+<dt>incoming</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">a <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> instance or a tuple</span><dd>the layer feeding into this layer, or the expected input shape</dd>
+<dt>p</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default = 0.5)</span><dd>The probability of setting a value to zero</dd>
+<dt>name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Name of the layer. Should be specified for better readability (
+inherited from <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>).</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The dropout layer is a regularizer that randomly sets input values to
+zero; see <a class="footnote-reference" href="#id3" id="id1">[1]</a>, <a class="footnote-reference" href="#id4" id="id2">[2]</a> for why this might improve generalization.</p>
+<p class="last">For ease of use, see <a class="reference internal" href="#braid.berry.layers.Dropout.get_aux_inputs" title="braid.berry.layers.Dropout.get_aux_inputs"><code class="xref py py-func docutils literal"><span class="pre">get_aux_inputs()</span></code></a> to get the value of <code class="docutils literal"><span class="pre">p</span></code>
+during training and testing.</p>
+</div>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Hinton, G., Srivastava, N., Krizhevsky, A., Sutskever, I.,
+Salakhutdinov, R. R. (2012):
+Improving neural networks by preventing co-adaptation of feature
+detectors. arXiv preprint arXiv:1207.0580.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Srivastava Nitish, Hinton, G., Krizhevsky, A., Sutskever,
+I., &amp; Salakhutdinov, R. R. (2014):
+Dropout: A Simple Way to Prevent Neural Networks from Overfitting.
+Journal of Machine Learning Research, 5(Jun)(2), 1929-1958.</td></tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="braid.berry.layers.Dropout.get_aux_inputs">
+<code class="descname">get_aux_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_aux_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the auxiliary inputs required for the
+layer.</p>
+<dl class="docutils">
+<dt>list of tuples</dt>
+<dd>[(<cite>tf.placeholder.name</cite>, (train_phase_value, test_phase_value)),]</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">l_in</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">l</span><span class="o">.</span><span class="n">get_aux_inputs</span><span class="p">()</span>
+<span class="go">[(u&#39;drop_1/p:0&#39;, (0.5, 1.0))]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Dropout.get_fan_out">
+<code class="descname">get_fan_out</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_fan_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output receptive field</p>
+<dl class="docutils">
+<dt>int</dt>
+<dd><code class="docutils literal"><span class="pre">fan_in</span> <span class="pre">*</span> <span class="pre">p</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Dropout.get_output_for">
+<code class="descname">get_output_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_output_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the dropout operation and returns the output <code class="docutils literal"><span class="pre">tf.Tensor</span></code></p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Output tensor of this layer.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Dropout.get_output_shape_for">
+<code class="descname">get_output_shape_for</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_output_shape_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the output tensor</p>
+<dl class="docutils">
+<dt>input_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple or list</span><dd>Shape of the input layer.</dd>
+</dl>
+<dl class="docutils">
+<dt>tuple</dt>
+<dd>Same as the <code class="docutils literal"><span class="pre">input_shape</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Dropout.validate_input_layer">
+<code class="descname">validate_input_layer</code><span class="sig-paren">(</span><em>incoming</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.validate_input_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the input layer shape</p>
+<p>Returns <code class="docutils literal"><span class="pre">True</span></code> if the input layer is 2D else, raise an
+<code class="xref py py-exc docutils literal"><span class="pre">exceptions.AssertError</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../layers.html"><code class="docutils literal"><span class="pre">berry.layers</span></code></a><ul>
+      <li>Previous: <a href="shape.html" title="previous chapter">Shape layers</a></li>
+      <li>Next: <a href="../initializations.html" title="next chapter"><code class="docutils literal"><span class="pre">berry.initializations</span></code></a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/modules/berry/layers/noise.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Braid Contributers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../../_sources/modules/berry/layers/noise.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

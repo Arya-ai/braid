@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>berry.BerryModel &mdash; Braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Braid 0.1 documentation" href="../../index.html" />
+    <link rel="next" title="berry.layers" href="layers.html" />
+    <link rel="prev" title="Welcome to Braid’s documentation!" href="../../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-braid.berry.base">
+<span id="berry-berrymodel"></span><h1><code class="xref py py-class docutils literal"><span class="pre">berry.BerryModel</span></code><a class="headerlink" href="#module-braid.berry.base" title="Permalink to this headline">¶</a></h1>
+<p>Helper class for constructing a neural network model using Berry</p>
+<dl class="class">
+<dt id="braid.berry.BerryModel">
+<em class="property">class </em><code class="descclassname">braid.berry.</code><code class="descname">BerryModel</code><a class="headerlink" href="#braid.berry.BerryModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper class to create deep neural networks using Berry.</p>
+<p><code class="xref py py-class docutils literal"><span class="pre">berry.BerryModel</span></code> maintains an ordered dictionary of layers added
+to the graph and provides access to the output of the model. It also
+provides easy access to auxiliary variables and the values taken by them
+during &#8216;train&#8217; and &#8216;test&#8217; phase.</p>
+<dl class="docutils">
+<dt>layers</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">ordered dict</span><dd>All the layers which have been added to the graph. &#8220;Key&#8221; is the name
+of the added object and the &#8220;value&#8221; is the object. Object can either
+be of <code class="xref py py-class docutils literal"><span class="pre">berry.layers.Layer</span></code> class or <code class="docutils literal"><span class="pre">tf.Tensor</span></code> class.</dd>
+<dt>last</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal"><span class="pre">berry.layers.Layer</span></code> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>The last layer added to the model.</dd>
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>The output tensor of the last layer added to the model.</dd>
+<dt>train_aux</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd>Contains the auxiliary inputs for the model. The &#8220;key&#8221; is the name of
+the auxiliary variables and the &#8220;value&#8221; is the value taken by the
+variable during the training phase.</dd>
+<dt>test_aux</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><dd>Contains the auxiliary inputs for the model. The &#8220;key&#8221; is the name of
+the auxiliary variables and the &#8220;value&#8221; is the value taken by the
+variable during the testing phase.</dd>
+</dl>
+<dl class="method">
+<dt id="braid.berry.BerryModel.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>layer_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.BerryModel.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add another layer to the model.</p>
+<dl class="docutils">
+<dt>layer_instance</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Insert the layer to the <code class="docutils literal"><span class="pre">dict</span></code> of layers, <code class="docutils literal"><span class="pre">self.layers</span></code>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.BerryModel.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>layer_name</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.BerryModel.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an existing layer from the model.</p>
+<dl class="docutils">
+<dt>layer_name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Name of the layer.</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></dt>
+<dd>The layer corresponding to the name, <code class="docutils literal"><span class="pre">layer_name</span></code>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="braid.berry.BerryModel.last">
+<code class="descname">last</code><a class="headerlink" href="#braid.berry.BerryModel.last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="braid.berry.BerryModel.layers">
+<code class="descname">layers</code><a class="headerlink" href="#braid.berry.BerryModel.layers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="braid.berry.BerryModel.output">
+<code class="descname">output</code><a class="headerlink" href="#braid.berry.BerryModel.output" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="braid.berry.BerryModel.test_aux">
+<code class="descname">test_aux</code><a class="headerlink" href="#braid.berry.BerryModel.test_aux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="braid.berry.BerryModel.train_aux">
+<code class="descname">train_aux</code><a class="headerlink" href="#braid.berry.BerryModel.train_aux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../../index.html" title="previous chapter">Welcome to Braid&#8217;s documentation!</a></li>
+      <li>Next: <a href="layers.html" title="next chapter"><code class="docutils literal"><span class="pre">berry.layers</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/modules/berry/model.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Braid Contributers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../_sources/modules/berry/model.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

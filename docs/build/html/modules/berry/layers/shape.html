@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Shape layers &mdash; Braid 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Braid 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="berry.layers" href="../layers.html" />
+    <link rel="next" title="Noise layers" href="noise.html" />
+    <link rel="prev" title="Pooling layers" href="pool.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-braid.berry.layers.shape">
+<span id="shape-layers"></span><h1>Shape layers<a class="headerlink" href="#module-braid.berry.layers.shape" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="braid.berry.layers.Flatten">
+<em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Flatten</code><span class="sig-paren">(</span><em>incoming</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten layer</p>
+<dl class="docutils">
+<dt>incoming</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Parent layer, whose output is given as input to the current layer.</dd>
+<dt>name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Name of the layer. Should be specified for better readability (
+inherited from <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>).</dd>
+</dl>
+<dl class="docutils">
+<dt>input_layer</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Input layer to this layer.</dd>
+<dt>input_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the incoming layer.</dd>
+<dt>output</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>The Tensor obtained after performing the transformation applied by
+this layer.</dd>
+<dt>output_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the output tensor.</dd>
+<dt>type</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Return the name of the class.</dd>
+</dl>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Inherits class <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</p>
+</div>
+<dl class="method">
+<dt id="braid.berry.layers.Flatten.get_output_for">
+<code class="descname">get_output_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.get_output_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ravel the input layer into a 1D vector</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
+<dd>Output tensor of this layer.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Flatten.get_output_shape_for">
+<code class="descname">get_output_shape_for</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.get_output_shape_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the output tensor</p>
+<dl class="docutils">
+<dt>input_shape</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">tuple or list</span><dd>Shape of the input layer.</dd>
+</dl>
+<dl class="docutils">
+<dt>tuple</dt>
+<dd>Shape of the output tensor. <code class="docutils literal"><span class="pre">(batch_size,</span> <span class="pre">total_num_input_units)</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="braid.berry.layers.Flatten.validate_input_layer">
+<code class="descname">validate_input_layer</code><span class="sig-paren">(</span><em>incoming</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.validate_input_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the input layer shape</p>
+<p>Returns <code class="docutils literal"><span class="pre">True</span></code> if the input layer is 2+D else, raise an
+<code class="xref py py-exc docutils literal"><span class="pre">exceptions.AssertError</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../layers.html"><code class="docutils literal"><span class="pre">berry.layers</span></code></a><ul>
+      <li>Previous: <a href="pool.html" title="previous chapter">Pooling layers</a></li>
+      <li>Next: <a href="noise.html" title="next chapter">Noise layers</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/modules/berry/layers/shape.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Braid Contributers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../../../_sources/modules/berry/layers/shape.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
