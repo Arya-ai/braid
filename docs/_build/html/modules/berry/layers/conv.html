@@ -23,6 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="braid 0.1 documentation" href="../../../index.html" />
     <link rel="up" title="berry.layers" href="../layers.html" />
     <link rel="next" title="Dense layers" href="dense.html" />
@@ -45,6 +46,17 @@
   <div class="section" id="module-braid.berry.layers.convolution">
 <span id="convolutional-layers"></span><h1>Convolutional layers<a class="headerlink" href="#module-braid.berry.layers.convolution" title="Permalink to this headline">¶</a></h1>
 <p>Convolutional layers</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.layers.Convolution2D" title="braid.berry.layers.Convolution2D"><code class="xref py py-obj docutils literal"><span class="pre">Convolution2D</span></code></a></td>
+<td>2D convolution layer</td>
+</tr>
+</tbody>
+</table>
 <dl class="class">
 <dt id="braid.berry.layers.Convolution2D">
 <em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Convolution2D</code><span class="sig-paren">(</span><em>incoming</em>, <em>num_filters</em>, <em>kernel_size</em>, <em>stride=1</em>, <em>pad='VALID'</em>, <em>activation='linear'</em>, <em>init=None</em>, <em>W_stddev=0.01</em>, <em>b_val=0.1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Convolution2D" title="Permalink to this definition">¶</a></dt>
@@ -168,7 +180,9 @@ this layer.</dd>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Each dimension of the output is given as</p>
-<p class="last">where  is the width of the input layer dim,  is the <code class="docutils literal"><span class="pre">kernel_size</span></code>,  is the amount of padding applied and  is the <code class="docutils literal"><span class="pre">stride</span></code>.</p>
+<div class="math">
+\[l_o = \frac{( W - F +2P)}{S} + 1\]</div>
+<p class="last">where <span class="math">\(W\)</span> is the width of the input layer dim, <span class="math">\(F\)</span> is the <code class="docutils literal"><span class="pre">kernel_size</span></code>, <span class="math">\(P\)</span> is the amount of padding applied and <span class="math">\(S\)</span> is the <code class="docutils literal"><span class="pre">stride</span></code>.</p>
 </div>
 </dd></dl>
 

@@ -23,6 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="braid 0.1 documentation" href="../../index.html" />
     <link rel="prev" title="berry.objectives" href="objectives.html" />
    
@@ -52,11 +53,33 @@ Each training step in turn consists mainly of two steps:</p>
 rate (this depends on the type of optimizer used)</li>
 </ul>
 <p>List of optimizers available:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.optimizers.sgd" title="braid.berry.optimizers.sgd"><code class="xref py py-obj docutils literal"><span class="pre">sgd</span></code></a></td>
+<td>Stochastic Gradient Descent</td>
+</tr>
+</tbody>
+</table>
 <p>It is possible to catch vanishing/exploding gradients problem by monitoring
 the gradients every few iterations. The class below prints the mean and
 standard deviation of the parameters and it&#8217;s corresponding gradients in
 order to facilitate better debugging in case the neural network is not
 learning.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.optimizers.GradientSanity" title="braid.berry.optimizers.GradientSanity"><code class="xref py py-obj docutils literal"><span class="pre">GradientSanity</span></code></a></td>
+<td>Montior the value of parameters and it&#8217;s corresponding gradients.</td>
+</tr>
+</tbody>
+</table>
 <div class="section" id="helper-function">
 <h2>Helper function<a class="headerlink" href="#helper-function" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -107,8 +130,11 @@ Alternatively, you can use the optimizer functions directly,</p>
 pass.</dd>
 </dl>
 <p>Parameter update step for SGD is</p>
-<p>where  is the gradient of
-the loss for  -th mini-batch w.r.t. paramter .</p>
+<div class="math">
+\[\theta_i = \theta_i + \alpha \nabla \mathcal{J}_{\theta_i}
+(x^{(i)}, y^{(i)})\]</div>
+<p>where <span class="math">\(\nabla\mathcal{J}_i(x^{(i)}, y^{(i)})\)</span> is the gradient of
+the loss for <span class="math">\(i\)</span> -th mini-batch w.r.t. paramter <span class="math">\(\theta_i\)</span>.</p>
 </dd></dl>
 
 </div>
