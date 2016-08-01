@@ -9,7 +9,7 @@ desc_BRAID = """Deep Learning library in Tensorflow.
 
 AUTHOR = 'Chintak Sheth'
 AUTHOR_EMAIL = 'chintak@arya.ai'
-DOWNLOAD_URL = 'http://github.com/arya-ai/berry'
+DOWNLOAD_URL = 'http://github.com/Arya-ai/braid'
 LICENSE = 'MIT'
 DESCRIPTION_BRAID = 'Deep Learning library in Tensorflow'
 LONG_DESCRIPTION_BRAID = desc_BRAID
