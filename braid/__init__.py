@@ -1,3 +1,3 @@
 # from .base import BerryModel
 
-__version__ = '0.1dev'
+__version__ = '0.1'
