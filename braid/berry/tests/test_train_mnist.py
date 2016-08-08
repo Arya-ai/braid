@@ -4,10 +4,10 @@ import os
 import tensorflow as tf
 import numpy as np
 from math import ceil
-from berry import BerryModel
-from berry.optimizers import get_optimizer
-from berry.objectives import get_objective
-from berry.layers import (Convolution2D, MaxPooling2D,
+from braid.berry import BerryModel
+from braid.berry.optimizers import get_optimizer
+from braid.berry.objectives import get_objective
+from braid.berry.layers import (Convolution2D, MaxPooling2D,
                           Dense, Flatten)
 
 
