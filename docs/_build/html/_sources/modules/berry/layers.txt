@@ -8,6 +8,7 @@
 
     layers/base
     layers/conv
+    layers/rnn
     layers/dense
     layers/pool
     layers/shape
@@ -30,6 +31,13 @@
     :nosignatures:
 
     Convolution2D
+
+.. rubric:: :doc:`layers/rnn`
+
+.. autosummary::
+    :nosignatures:
+
+    RNN
 
 
 .. rubric:: :doc:`layers/pool`

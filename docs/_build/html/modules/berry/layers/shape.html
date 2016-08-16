@@ -43,81 +43,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-braid.berry.layers.shape">
-<span id="shape-layers"></span><h1>Shape layers<a class="headerlink" href="#module-braid.berry.layers.shape" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="shape-layers">
+<h1>Shape layers<a class="headerlink" href="#shape-layers" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.layers.Flatten" title="braid.berry.layers.Flatten"><code class="xref py py-obj docutils literal"><span class="pre">Flatten</span></code></a></td>
-<td>Flatten layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Flatten</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<dl class="class">
-<dt id="braid.berry.layers.Flatten">
-<em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Flatten</code><span class="sig-paren">(</span><em>incoming</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flatten layer</p>
-<dl class="docutils">
-<dt>incoming</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Parent layer, whose output is given as input to the current layer.</dd>
-<dt>name</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Name of the layer. Should be specified for better readability (
-inherited from <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>).</dd>
-</dl>
-<dl class="docutils">
-<dt>input_layer</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or <code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>Input layer to this layer.</dd>
-<dt>input_shape</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the incoming layer.</dd>
-<dt>output</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier"><code class="docutils literal"><span class="pre">tf.Tensor</span></code></span><dd>The Tensor obtained after performing the transformation applied by
-this layer.</dd>
-<dt>output_shape</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span><dd>Shape of the output tensor.</dd>
-<dt>type</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Return the name of the class.</dd>
-</dl>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last">Inherits class <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</p>
-</div>
-<dl class="method">
-<dt id="braid.berry.layers.Flatten.get_output_for">
-<code class="descname">get_output_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.get_output_for" title="Permalink to this definition">¶</a></dt>
-<dd><p>Ravel the input layer into a 1D vector</p>
-<dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
-<dd>Output tensor of this layer.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Flatten.get_output_shape_for">
-<code class="descname">get_output_shape_for</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.get_output_shape_for" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shape of the output tensor</p>
-<dl class="docutils">
-<dt>input_shape</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple or list</span><dd>Shape of the input layer.</dd>
-</dl>
-<dl class="docutils">
-<dt>tuple</dt>
-<dd>Shape of the output tensor. <code class="docutils literal"><span class="pre">(batch_size,</span> <span class="pre">total_num_input_units)</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Flatten.validate_input_layer">
-<code class="descname">validate_input_layer</code><span class="sig-paren">(</span><em>incoming</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Flatten.validate_input_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validate the input layer shape</p>
-<p>Returns <code class="docutils literal"><span class="pre">True</span></code> if the input layer is 2+D else, raise an
-<code class="xref py py-exc docutils literal"><span class="pre">exceptions.AssertError</span></code>.</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 
 

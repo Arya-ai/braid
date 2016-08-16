@@ -1,7 +1,8 @@
-"""Convolutional layers
+"""Recurrent layers
 """
 from __future__ import division
 import tensorflow as tf
+from tensorflow.python.ops import rnn_cell
 import warnings
 from .base import Layer
 from ..activations import get_activation
@@ -9,9 +10,6 @@ from .. import initializations as init
 from ..utils import print_activations, get_convolve_shape, print_msg
 from ..config import BerryKeys
 
-# __all__ = [
-#     "Convolution2D"
-]
 
 __all__ = [
     "RNN",
@@ -19,36 +17,29 @@ __all__ = [
 ]
 
 class RNN(Layer):
-    """2D convolution layer
+    """RNN layer
 
     Parameters
     ----------
     incoming : :class:`Layer` or ``tf.Tensor``
         Parent layer, whose output is given as input to the current layer.
 
-    num_filters : int
-        The number of filters to learn.
+    num_units : int
+        The number of output units.
 
-    kernel_size : int
-        The size of the kernel to consider for pooling.
+    num_of_cells : int
+        The number of cells/steps in the layer.
 
-    stride : int, optional (default = 1)
-        The amount of subsample.
-
-    pad : string, optional (default = "VALID")
-        Type of padding to apply to the input layer before doing pooling.
-        Expected values - "VALID", "SAME". No padding is applied for "VALID",
-        while a padding of ``(kernel_size + 1) / 2`` if "SAME". This
-        ensures that the output layer shape is the same as that of the input
-        layer shape.
+    cell_type : string, optional (default = "LSTM")
+        Type of recurrent cell to be used.
 
     activation : string, optional (default = "linear")
         Nonlinearity to apply afer performing convolution. See
         :mod:`berry.activations`
 
-    init : string, optional (default = None)
-        Weight initialization method to choose. See
-        :mod:`berry.initializations`
+    return_cell_out : bool, optional (default = False)
+        If true output from all cells are returned as 3d tensor,
+        otherwise just final output as 2d tensor.
 
     W_stddev : float, optional (default = 1e-2)
         Standard deviation for Normal distribution to initialize the weights,
@@ -92,10 +83,13 @@ class RNN(Layer):
     .. seealso:: Inherits class :class:`Layer`.
     """
 
-    def __init__(self, incoming, num_units,num_of_cells,return_cell_out = False, use_peepholes=False, cell_clip=None, pad='VALID', activation='linear',
+    def __init__(self, incoming, num_units,num_of_cells,cell_type='LSTM',return_cell_out = False, use_peepholes=False, cell_clip=None, pad='VALID', activation=None,
                  init=None, W_stddev=1e-2, b_val=0.1, **kwargs):
         super(RNN, self).__init__(incoming, **kwargs)
-        self.activation = get_activation(activation)
+        if activation:
+            self.activation = get_activation(activation)
+        else:
+            self.activation = None
         if init is None and W_stddev == 1e-2 and b_val == 0.1:
             print_msg(
                 "using default ``W_stddev`` ({})"
@@ -107,6 +101,7 @@ class RNN(Layer):
         self.num_units = num_units
         self.num_of_cells = num_of_cells
         self.return_cell_out = return_cell_out
+        self.cell_type = cell_type
 
         # pad = pad.upper()
         # if pad not in {'VALID', 'SAME'}:
@@ -126,10 +121,10 @@ class RNN(Layer):
         Returns ``True`` if the input layer is 4D else, raise an
         :py:exc:`exceptions.AssertError`.
         """
-        assert len(self.input_shape) == 4, (
+        assert len(self.input_shape) == 3, (
             "{} Input shape error: 2D convolution "
             "requires input shape: (batch_size, "
-            "height, width, channels)".format(self.type))
+            "num_of_cells, num_units)".format(self.type))
         return True
 
     def get_output_shape_for(self, input_shape):
@@ -144,30 +139,12 @@ class RNN(Layer):
         -------
         tuple
             Shape of the output tensor.
-
-        Notes
-        -----
-        .. note::
-
-            Each dimension of the output is given as
-
-            .. math::
-
-                l_o = \\frac{( W - F +2P)}{S} + 1
-
-            where :math:`W` is the width of the input layer dim, :math:`F` is the ``kernel_size``, :math:`P` is the amount of padding applied and :math:`S` is the ``stride``.
         """
         batch_size = input_shape[0]
-        shape = tuple(
-            [batch_size, ] + [
-                get_convolve_shape(i, k, s, self.pad)
-                for i, k, s in zip(input_shape[1:3],
-                                   self.kernel_size,
-                                   self.stride[1:3])
-            ] + [self.num_filters, ]
-        )
-        assert len(shape) == 4, (
-            "{} Output shape error: should be 4D.".format(self.type))
+        if self.return_cell_out:
+            shape = tuple([batch_size,self.num_of_cells,self.num_units])
+        else:
+            shape = tuple([batch_size,self.num_units])
         return shape
 
     def get_output_for(self):
@@ -179,24 +156,26 @@ class RNN(Layer):
         ``tf.Tensor``
             Output tensor of this layer.
         """
+        states = []
+        outputs = []
+        lstm = rnn_cell.BasicLSTMCell(self.num_units, state_is_tuple=True)
+        initial_state = state = lstm.zero_state(batch_size, tf.float32)
         with tf.name_scope(self.name) as scope:
-            # define layer weights and biases
-            kernel = self.weight_variable(
-                self.get_W_shape(),
-                initializer=self.init,
-                stddev=self.W_stddev)
-            biases = self.bias_variable(
-                self.get_b_shape(),
-                initializer=self.init,
-                val=self.b_val)
-            conv = tf.nn.conv2d(self.input_layer, kernel,
-                                self.stride, padding=self.pad)
-            if self.activation is None:
-                preactivation = tf.nn.bias_add(conv, biases, name=scope)
-                output = preactivation
-            else:
-                preactivation = tf.nn.bias_add(conv, biases)
-                output = self.activation(preactivation, name=scope)
-            self.params = [kernel, biases]
+            for _id in xrange(self.num_of_cells):
+                if _id > 0:
+                    scope.reuse_variables()
+                output, state = lstm(self.input_layer, state)
+
+                if self.activation is not None:
+                    output = self.activation(output)
+
+                outputs.append(output)
+                states.append(state)
+
+        final_state = state
+        if self.return_cell_out:
+            output = tf.reshape(tf.concat(1, outputs), [-1, size])
+        else:
+            output = outputs[-1]
         tf.add_to_collection(BerryKeys.LAYER_OUTPUTS, output)
         return output

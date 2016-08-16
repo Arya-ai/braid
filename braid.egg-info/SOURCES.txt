@@ -20,6 +20,7 @@ braid/berry/layers/convolution.py
 braid/berry/layers/dense.py
 braid/berry/layers/noise.py
 braid/berry/layers/pooling.py
+braid/berry/layers/rnn.py
 braid/berry/layers/shape.py
 braid/berryflow/__init__.py
 braid/berryflow/base.py

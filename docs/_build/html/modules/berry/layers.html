@@ -53,14 +53,14 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-obj docutils literal"><span class="pre">Layer</span></code></a></td>
-<td>Base class for implementing a layer in <code class="xref py py-mod docutils literal"><span class="pre">berry</span></code>.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Layer</span></code></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#braid.berry.layers.get_all_aux_params" title="braid.berry.layers.get_all_aux_params"><code class="xref py py-obj docutils literal"><span class="pre">get_all_aux_params</span></code></a></td>
-<td>Aggregate all auxiliary parameters from all the layers for training and testing.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_all_aux_params</span></code></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.layers.print_layers_summary" title="braid.berry.layers.print_layers_summary"><code class="xref py py-obj docutils literal"><span class="pre">print_layers_summary</span></code></a></td>
-<td>Print a nice formatted summary of the network.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">print_layers_summary</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -71,8 +71,20 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/conv.html#braid.berry.layers.Convolution2D" title="braid.berry.layers.Convolution2D"><code class="xref py py-obj docutils literal"><span class="pre">Convolution2D</span></code></a></td>
-<td>2D convolution layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Convolution2D</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric"><a class="reference internal" href="layers/rnn.html"><span class="doc">Recurrent layers</span></a></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">RNN</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -83,8 +95,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/pool.html#braid.berry.layers.MaxPooling2D" title="braid.berry.layers.MaxPooling2D"><code class="xref py py-obj docutils literal"><span class="pre">MaxPooling2D</span></code></a></td>
-<td>Pooling using the <code class="docutils literal"><span class="pre">max</span></code> operation</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxPooling2D</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -95,8 +107,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/dense.html#braid.berry.layers.Dense" title="braid.berry.layers.Dense"><code class="xref py py-obj docutils literal"><span class="pre">Dense</span></code></a></td>
-<td>Fully connected or dense layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Dense</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -107,8 +119,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/shape.html#braid.berry.layers.Flatten" title="braid.berry.layers.Flatten"><code class="xref py py-obj docutils literal"><span class="pre">Flatten</span></code></a></td>
-<td>Flatten layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Flatten</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -119,40 +131,15 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="layers/noise.html#braid.berry.layers.Dropout" title="braid.berry.layers.Dropout"><code class="xref py py-obj docutils literal"><span class="pre">Dropout</span></code></a></td>
-<td>Dropout layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Dropout</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="helper-functions">
 <h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h2>
-<p>Certain layers like <a class="reference internal" href="layers/noise.html#braid.berry.layers.Dropout" title="braid.berry.layers.Dropout"><code class="xref py py-class docutils literal"><span class="pre">Dropout</span></code></a> require the definition of additional variables like <code class="docutils literal"><span class="pre">p</span></code> which takes on different values during train and test phase. For running any operation on the tensorflow graph (<code class="docutils literal"><span class="pre">tf.Graph</span></code>), it is necessary to feed in the value to <code class="docutils literal"><span class="pre">p</span></code> variable as well. In order to handle such situations, a convenient function, <a class="reference internal" href="#braid.berry.layers.get_all_aux_params" title="braid.berry.layers.get_all_aux_params"><code class="xref py py-func docutils literal"><span class="pre">get_all_aux_params()</span></code></a> is provided which aggregates such variables along with the appropriate values from all the layers according to the train/test phase.</p>
-<p>For additional clarity on the model definition and in order to verify that the intended architecture is being created, one can use the <a class="reference internal" href="#braid.berry.layers.print_layers_summary" title="braid.berry.layers.print_layers_summary"><code class="xref py py-func docutils literal"><span class="pre">print_layers_summary()</span></code></a> function to print additional information about the layers.</p>
-<dl class="function">
-<dt id="braid.berry.layers.get_all_aux_params">
-<code class="descclassname">braid.berry.layers.</code><code class="descname">get_all_aux_params</code><span class="sig-paren">(</span><em>deterministic</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.get_all_aux_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Aggregate all auxiliary parameters from all the layers for training and
-testing.</p>
-<dl class="docutils">
-<dt>deterministic</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><dd><code class="docutils literal"><span class="pre">True</span></code> for test phase and <code class="docutils literal"><span class="pre">False</span></code> for train phase.</dd>
-</dl>
-<dl class="docutils">
-<dt>dict</dt>
-<dd>Dictionary with parameter name as &#8220;key&#8221; and their value as &#8220;value&#8221;.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="braid.berry.layers.print_layers_summary">
-<code class="descclassname">braid.berry.layers.</code><code class="descname">print_layers_summary</code><span class="sig-paren">(</span><em>layers_list</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.print_layers_summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a nice formatted summary of the network.</p>
-<dl class="docutils">
-<dt>layers_list</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">list of <a class="reference internal" href="layers/base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a></span><dd>List of layers.</dd>
-</dl>
-</dd></dl>
-
+<p>Certain layers like <code class="xref py py-class docutils literal"><span class="pre">Dropout</span></code> require the definition of additional variables like <code class="docutils literal"><span class="pre">p</span></code> which takes on different values during train and test phase. For running any operation on the tensorflow graph (<code class="docutils literal"><span class="pre">tf.Graph</span></code>), it is necessary to feed in the value to <code class="docutils literal"><span class="pre">p</span></code> variable as well. In order to handle such situations, a convenient function, <code class="xref py py-func docutils literal"><span class="pre">get_all_aux_params()</span></code> is provided which aggregates such variables along with the appropriate values from all the layers according to the train/test phase.</p>
+<p>For additional clarity on the model definition and in order to verify that the intended architecture is being created, one can use the <code class="xref py py-func docutils literal"><span class="pre">print_layers_summary()</span></code> function to print additional information about the layers.</p>
 </div>
 </div>
 

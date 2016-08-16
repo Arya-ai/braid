@@ -43,120 +43,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-braid.berry.layers.noise">
-<span id="noise-layers"></span><h1>Noise layers<a class="headerlink" href="#module-braid.berry.layers.noise" title="Permalink to this headline">¶</a></h1>
-<p>Noise layers</p>
+  <div class="section" id="noise-layers">
+<h1>Noise layers<a class="headerlink" href="#noise-layers" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#braid.berry.layers.Dropout" title="braid.berry.layers.Dropout"><code class="xref py py-obj docutils literal"><span class="pre">Dropout</span></code></a></td>
-<td>Dropout layer</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Dropout</span></code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<dl class="class">
-<dt id="braid.berry.layers.Dropout">
-<em class="property">class </em><code class="descclassname">braid.berry.layers.</code><code class="descname">Dropout</code><span class="sig-paren">(</span><em>incoming</em>, <em>p</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dropout layer</p>
-<p>Sets values to zero with probability p. See notes for disabling dropout
-during testing.</p>
-<dl class="docutils">
-<dt>incoming</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">a <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> instance or a tuple</span><dd>the layer feeding into this layer, or the expected input shape</dd>
-<dt>p</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default = 0.5)</span><dd>The probability of setting a value to zero</dd>
-<dt>name</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default = None)</span><dd>Name of the layer. Should be specified for better readability (
-inherited from <a class="reference internal" href="base.html#braid.berry.layers.Layer" title="braid.berry.layers.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>).</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>The dropout layer is a regularizer that randomly sets input values to
-zero; see <a class="footnote-reference" href="#id3" id="id1">[1]</a>, <a class="footnote-reference" href="#id4" id="id2">[2]</a> for why this might improve generalization.</p>
-<p class="last">For ease of use, see <a class="reference internal" href="#braid.berry.layers.Dropout.get_aux_inputs" title="braid.berry.layers.Dropout.get_aux_inputs"><code class="xref py py-func docutils literal"><span class="pre">get_aux_inputs()</span></code></a> to get the value of <code class="docutils literal"><span class="pre">p</span></code>
-during training and testing.</p>
-</div>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Hinton, G., Srivastava, N., Krizhevsky, A., Sutskever, I.,
-Salakhutdinov, R. R. (2012):
-Improving neural networks by preventing co-adaptation of feature
-detectors. arXiv preprint arXiv:1207.0580.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Srivastava Nitish, Hinton, G., Krizhevsky, A., Sutskever,
-I., &amp; Salakhutdinov, R. R. (2014):
-Dropout: A Simple Way to Prevent Neural Networks from Overfitting.
-Journal of Machine Learning Research, 5(Jun)(2), 1929-1958.</td></tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="braid.berry.layers.Dropout.get_aux_inputs">
-<code class="descname">get_aux_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_aux_inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function returns the auxiliary inputs required for the
-layer.</p>
-<dl class="docutils">
-<dt>list of tuples</dt>
-<dd>[(<cite>tf.placeholder.name</cite>, (train_phase_value, test_phase_value)),]</dd>
-</dl>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="n">l_in</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">l</span><span class="o">.</span><span class="n">get_aux_inputs</span><span class="p">()</span>
-<span class="go">[(u&#39;drop_1/p:0&#39;, (0.5, 1.0))]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Dropout.get_fan_out">
-<code class="descname">get_fan_out</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_fan_out" title="Permalink to this definition">¶</a></dt>
-<dd><p>Output receptive field</p>
-<dl class="docutils">
-<dt>int</dt>
-<dd><code class="docutils literal"><span class="pre">fan_in</span> <span class="pre">*</span> <span class="pre">p</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Dropout.get_output_for">
-<code class="descname">get_output_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_output_for" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform the dropout operation and returns the output <code class="docutils literal"><span class="pre">tf.Tensor</span></code></p>
-<dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">tf.Tensor</span></code></dt>
-<dd>Output tensor of this layer.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Dropout.get_output_shape_for">
-<code class="descname">get_output_shape_for</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.get_output_shape_for" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shape of the output tensor</p>
-<dl class="docutils">
-<dt>input_shape</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">tuple or list</span><dd>Shape of the input layer.</dd>
-</dl>
-<dl class="docutils">
-<dt>tuple</dt>
-<dd>Same as the <code class="docutils literal"><span class="pre">input_shape</span></code></dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="braid.berry.layers.Dropout.validate_input_layer">
-<code class="descname">validate_input_layer</code><span class="sig-paren">(</span><em>incoming</em><span class="sig-paren">)</span><a class="headerlink" href="#braid.berry.layers.Dropout.validate_input_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validate the input layer shape</p>
-<p>Returns <code class="docutils literal"><span class="pre">True</span></code> if the input layer is 2D else, raise an
-<code class="xref py py-exc docutils literal"><span class="pre">exceptions.AssertError</span></code>.</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 
 
