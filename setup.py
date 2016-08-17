@@ -3,12 +3,12 @@ from setuptools import setup, find_packages
 import os
 
 
-desc_BRAID = """Deep Learning library in Tensorflow.
+desc_BRAID = """Meta-framework for faster prototyping in Deep Learning.
 """
 
 
-AUTHOR = 'Chintak Sheth'
-AUTHOR_EMAIL = 'chintak@arya.ai'
+AUTHOR = 'Arya ai'
+AUTHOR_EMAIL = 'hello@arya.ai'
 DOWNLOAD_URL = 'http://github.com/Arya-ai/braid'
 LICENSE = 'MIT'
 DESCRIPTION_BRAID = 'Deep Learning library in Tensorflow'
